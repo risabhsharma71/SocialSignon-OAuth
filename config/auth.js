@@ -15,7 +15,7 @@ module.exports = {
     'twitterAuth' : {
         'consumerKey'        : 'RndABqMlAnNaOPx783MHZ5vyi',
         'consumerSecret'     : 'u71Se3fvn8doD8gnoBnmr6ccuR933OveF1q5ILiVqdzvVfyoWi',
-        'callbackURL'        : 'http://localhost:3000/twitter-auth/twitter/redirect'
+        'callbackURL'        : 'https://risabh-oauth.herokuapp.com/twitter-auth/twitter/redirect'
     },
 
     'googleAuth' : {
@@ -27,7 +27,7 @@ module.exports = {
       'linkedinAuth':{
         'consumerKey'        : '81v7i8w8a51i6p',
         'consumerSecret'     : 'wmva72Zfz54RS817',
-        'callbackURL'        : 'http://localhost:3000/linkedin-auth/linkedin/redirect'
+        'callbackURL'        : 'https://risabh-oauth.herokuapp.com/linkedin-auth/linkedin/redirect'
      },
      'stocktwits':{
         "clientID": 'e299d0970f83c8ce',
