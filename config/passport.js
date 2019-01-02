@@ -1,9 +1,12 @@
 // load all the things we need
+var request= require('request')
+var googleContacts = require('google-contacts-oauth');
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 var LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+var StockTwitsStrategy = require('passport-stocktwits').Strategy;
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -147,7 +150,8 @@ module.exports = function(passport) {
     fbStrategy.passReqToCallback = true;  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     passport.use(new FacebookStrategy(fbStrategy,
     function(req, token, refreshToken, profile, done) {
-
+    console.log("facebook details================================================>",profile)
+    console.log("token:==========================================================>",token)
         // asynchronous
         process.nextTick(function() {
 
@@ -293,15 +297,16 @@ module.exports = function(passport) {
     }));
 
     // =========================================================================
-    // GOOGLE ==================================================================
+    // GOOGLE Profile==================================================================
     // =========================================================================
-    passport.use(new GoogleStrategy({
+    passport.use("google",new GoogleStrategy({
 
         clientID        : configAuth.googleAuth.clientID,
         clientSecret    : configAuth.googleAuth.clientSecret,
         callbackURL     : configAuth.googleAuth.callbackURL,
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-
+        passReqToCallback : true,  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        scope:["email","profile"]
+        
     },
     function(req, token, refreshToken, profile, done) {
 
@@ -369,7 +374,87 @@ module.exports = function(passport) {
 
         });
 
-    }));
+}));
+
+//===================================================================================
+//GOOGLE CONTACTS======================================================//
+//=======================================================================================
+passport.use("google-alt",new GoogleStrategy({
+
+    clientID        : configAuth.googleContactsAuth.clientID,
+    clientSecret    : configAuth.googleContactsAuth.clientSecret,
+    callbackURL     : configAuth.googleContactsAuth.callbackURL,
+    passReqToCallback : true, // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    scope:["email","profile","https://www.googleapis.com/auth/user.phonenumbers.read"]
+},
+function(req, token, refreshToken, profile, done) {
+ console.log("token from contacts==================>",profile)
+    // asynchronous
+    process.nextTick(function() {
+
+        // check if the user is already logged in
+        if (!req.user) {
+
+            User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                if (err)
+                    return done(err);
+
+                if (user) {
+
+                    // if there is a user id already but no token (user was linked at one point and then removed)
+                    if (!user.google.token) {
+                        user.google.token = token;
+                        user.google.name  = profile.displayName;
+                        user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
+                        user.save(function(err) {
+                            if (err)
+                                return done(err);
+                                
+                            return done(null, user);
+                        });
+                    }
+
+                    return done(null, user);
+                } else {
+                    var newUser          = new User();
+
+                    newUser.google.id    = profile.id;
+                    newUser.google.token = token;
+                    newUser.google.name  = profile.displayName;
+                    newUser.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
+                    newUser.save(function(err) {
+                        if (err)
+                            return done(err);
+                            
+                        return done(null, newUser);
+                    });
+                }
+            });
+
+        } else {
+            // user already exists and is logged in, we have to link accounts
+            var user               = req.user; // pull the user out of the session
+
+            user.google.id    = profile.id;
+            user.google.token = token;
+            user.google.name  = profile.displayName;
+            user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
+            user.save(function(err) {
+                if (err)
+                    return done(err);
+                    
+                return done(null, user);
+            });
+
+        }
+
+    });
+
+}));
+
      // =========================================================================
     // LINKEDIN ==================================================================
     // =========================================================================
@@ -378,6 +463,8 @@ module.exports = function(passport) {
         clientID        : configAuth.linkedinAuth.consumerKey,
         clientSecret    : configAuth.linkedinAuth.consumerSecret,
         callbackURL     : configAuth.linkedinAuth.callbackURL,
+        state:false,
+        scope: ['r_emailaddress', 'r_basicprofile'],
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
     },
@@ -385,6 +472,7 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
+            console.log("profile=================>",profile)
 
             // check if the user is already logged in
             if (!req.user) {
@@ -448,5 +536,19 @@ module.exports = function(passport) {
         });
 
     }));
+
+    //=====================================================================================================//
+    //Stocktwits//============================
+    //======================================================================================================//
+    var StockTwitsStrategy1 = configAuth.stocktwits;
+    passport.use(new StockTwitsStrategy(StockTwitsStrategy1,
+      //  passReqToCallback: true
+     function (req, token, secret, profile, done) {
+        console.log(token);
+        console.log(profile);
+        done();
+    }
+));
+    //======================================================================================================//
 
 };
