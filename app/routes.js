@@ -87,17 +87,6 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
-      //google contacts==============================================================
-         // send to google to do the authentication
-         app.get('/googleContacts', passport.authenticate('google-alt'));
-
-         // the callback after google has authorized the user
-         app.get('/contacts',
-             passport.authenticate('google-alt', {
-                 successRedirect : '/profile',
-                 failureRedirect : '/'
-             }));
-
     // google ---------------------------------
 
         // send to google to do the authentication
@@ -111,8 +100,8 @@ module.exports = function(app, passport) {
             }));
   // stocktwits=======================================
   app.get('/auth/stocktwits', passport.authenticate('stocktwits',
-    {scope: ['read','watch_lists','publish_messages','publish_watch_lists',
-    'follow_users','follow_stocks'], failureRedirect:'/', successRedirect:'/'}));
+    {scope: ['read','watch_lists','publish_messages','publish_watch_lists','follow_users','follow_stocks'],
+     }));
  
 app.get('stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwits',
     {failureRedirect:'/', successRedirect:'/profile'}));
@@ -168,7 +157,7 @@ app.get('stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwits
                 failureRedirect : '/'
             }));
 
-    
+
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
@@ -208,6 +197,14 @@ app.get('stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwits
     app.get('/unlink/google', isLoggedIn, function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
+        user.save(function(err) {
+            res.redirect('/profile');
+        });
+    });
+    //stocktwits=================================================
+    app.get('/unlink/stocktwits', isLoggedIn, function(req, res) {
+        var user          = req.user;
+        user.stocktwits.token = undefined;
         user.save(function(err) {
             res.redirect('/profile');
         });

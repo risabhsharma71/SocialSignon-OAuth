@@ -19,7 +19,7 @@
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-6">
             <div class="well">
                 <h3><span class="fa fa-user"></span> Local</h3>
 
@@ -36,7 +36,7 @@
                 <% } %>
 
             </div>
-        </div>
+        </div> -->
 
         <!-- FACEBOOK INFORMATION -->
         <div class="col-sm-6">
@@ -120,17 +120,35 @@
 
                     <a href="/unlink/linkedin" class="btn btn-info">Unlink</a>
                 <% } else { %>
-                    <a href="/connect/linkedin" class="btn btn-info">Connect LinkedIn</a>
+                    <a href="/auth/linkedin" class="btn btn-info">Connect LinkedIn</a>
                 <% } %>
 
             </div>
         </div>
 
-    <!-- <div class="text-center">
-        <p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-        <p>Visit the <a href="http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local">tutorial</a>.</p>
-    </div> -->
-
+    <div class="row">
+        <!-- STOCKTWITS -->
+        <div class="col-sm-6">
+                <div class="well">
+                    <h3 class="text-info"><span><input type="image" src="https://api.stocktwits.com/assets/logo/StockTwits_BluePNG-c45976a4590f44b6fc16e55a93d4796f57c74ad7510687737206c96efa8c1d97.png" style="height:20px;width:100px" /></span></span>  </h3>
+    
+                    <% if (user.stocktwits.token) { %>
+                        <p>
+                            <strong>id</strong>: <%= user.stocktwits.id %><br>
+                            <strong>token</strong>: <%= user.stocktwits.token %><br>
+                            <strong>display name</strong>: <%= user.stocktwits.displayName %><br>
+                            <strong>username</strong>: <%= user.stocktwits.username %>
+                        </p>
+    
+                        <a href="/unlink/linkedin" class="btn btn-info">Unlink</a>
+                    <% } else { %>
+                        <a href="/auth/linkedin" class="btn btn-info">Connect stocktwits</a>
+                    <% } %>
+    
+                </div>
+            </div>
+    
+        <div class="row">
 </div>
 </body>
 </html>

@@ -21,6 +21,7 @@
     "passport-local": "~1.0.0",
     "passport-stocktwits": "0.0.2",
     "passport-twitter": "~1.0.4",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "stocktwits": "0.0.4"
   }
 }
