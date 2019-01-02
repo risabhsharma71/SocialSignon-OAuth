@@ -467,7 +467,7 @@ module.exports = function(passport) {
 
             // asynchronous
             process.nextTick(function() {
-                console.log("profile====================>",profile)
+                console.log("stocktwits oauth data callback===========================================>",profile)
     
                 // check if the user is already logged in
                 if (!req.user) {

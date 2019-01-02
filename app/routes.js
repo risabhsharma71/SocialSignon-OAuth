@@ -103,7 +103,7 @@ module.exports = function(app, passport) {
     {scope: ['read','watch_lists','publish_messages','publish_watch_lists','follow_users','follow_stocks'],
      }));
  
-app.get('stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwits',
+app.get('/stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwits',
     {failureRedirect:'/', successRedirect:'/profile'}));
 
 // =============================================================================
