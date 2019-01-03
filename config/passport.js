@@ -502,10 +502,10 @@ module.exports = function(passport) {
                         } else {
                             var newUser   = new User();
     
-                            user.stocktwits.id    = profile.id;
-                                user.stocktwits.token = token;
-                                user.stocktwits.name  = profile.name;
-                                user.stocktwits.email = (profile.email).toLowerCase(); // pull the first email
+                            newUser.stocktwits.id    = profile.id;
+                            newUser.stocktwits.token = token;
+                            newUser.stocktwits.name  = profile.name;
+                            newUser.stocktwits.email = (profile.email).toLowerCase(); // pull the first email
     
     
                             newUser.save(function(err) {
