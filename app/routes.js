@@ -209,6 +209,14 @@ app.get('/stocktwits-auth/stocktwits/redirect', passport.authenticate('stocktwit
             res.redirect('/profile');
         });
     });
+     //linkedin=================================================
+     app.get('/unlink/linkedin', isLoggedIn, function(req, res) {
+        var user          = req.user;
+        user.linkedin.token = undefined;
+        user.save(function(err) {
+            res.redirect('/profile');
+        });
+    });
 
 
 };

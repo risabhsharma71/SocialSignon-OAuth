@@ -31,7 +31,7 @@ module.exports = {
         'consumerKey'        : '81v7i8w8a51i6p',
         'consumerSecret'     : 'wmva72Zfz54RS817',
         'callbackURL'        : 'https://risabh-oauth.herokuapp.com/linkedin-auth/linkedin/redirect',
-       // 'callbackURL'        : 'http://localhost:3000/linkdein-auth/linkedin/redirect'
+        //'callbackURL'        : 'http://localhost:3000/linkdein-auth/linkedin/redirect'
      },
      'stocktwits':{
         "clientID": 'e299d0970f83c8ce',
