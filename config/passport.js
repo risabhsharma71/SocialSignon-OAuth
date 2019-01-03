@@ -483,7 +483,7 @@ module.exports = function(passport) {
                         if (user) {
     
                             // if there is a user id already but no token (user was linked at one point and then removed)
-                            if (!user.stocktwits.token) {
+                            if (!user.stocktwits.id) {
 
                                 user.stocktwits.id    = profile.id;
                                 user.stocktwits.token = token;
