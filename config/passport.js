@@ -470,6 +470,7 @@ module.exports = function(passport) {
 
             // asynchronous
             process.nextTick(function() {
+                console.log("stocktwits oauth token========================================================================>",token)
                 console.log("stocktwits oauth data callback===========================================>",profile)
     
                 // check if the user is already logged in
@@ -486,8 +487,8 @@ module.exports = function(passport) {
 
                                 user.stocktwits.id    = profile.id;
                                 user.stocktwits.token = token;
-                                user.stocktwits.name  = profile.displayName;
-                                user.stocktwits.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                                user.stocktwits.name  = profile.name;
+                                user.stocktwits.email = (profile.email).toLowerCase(); // pull the first email
     
                                 user.save(function(err) {
                                     if (err)
@@ -501,10 +502,11 @@ module.exports = function(passport) {
                         } else {
                             var newUser   = new User();
     
-                            newUser.stocktwits.id    = profile.id;
-                            newUser.stocktwits.token = token;
-                            newUser.stocktwits.name  = profile.displayName;
-                            newUser.stocktwits.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                            user.stocktwits.id    = profile.id;
+                                user.stocktwits.token = token;
+                                user.stocktwits.name  = profile.name;
+                                user.stocktwits.email = (profile.email).toLowerCase(); // pull the first email
+    
     
                             newUser.save(function(err) {
                                 if (err)
@@ -518,12 +520,11 @@ module.exports = function(passport) {
                 } else {
                     // user already exists and is logged in, we have to link accounts
                     var user = req.user; // pull the user out of the session
-    
                     user.stocktwits.id    = profile.id;
                     user.stocktwits.token = token;
-                    user.stocktwits.name  = profile.displayName;
-                    user.stocktwits.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
-    
+                    user.stocktwits.name  = profile.name;
+                    user.stocktwits.email = (profile.email).toLowerCase(); // pull the first email
+
                     user.save(function(err) {
                         if (err)
                             return done(err);
