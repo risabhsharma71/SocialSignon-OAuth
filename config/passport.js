@@ -387,9 +387,10 @@ module.exports = function(passport) {
         scope: ['r_emailaddress', 'r_basicprofile'],
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
-    },
+    }, 
+    
     function(req, token, refreshToken, profile, done) {
-
+        console.log("linkedin auth callback called")
         // asynchronous
         process.nextTick(function() {
             console.log("profile=================>",profile)
@@ -405,6 +406,8 @@ module.exports = function(passport) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
                         if (!user.linkedin.token) {
+
+                            user.linkedin.id    = profile.id;
                             user.linkedin.token = token;
                             user.linkedin.name  = profile.displayName;
                             user.linkedin.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
@@ -480,6 +483,8 @@ module.exports = function(passport) {
     
                             // if there is a user id already but no token (user was linked at one point and then removed)
                             if (!user.stocktwits.token) {
+
+                                user.stocktwits.id    = profile.id;
                                 user.stocktwits.token = token;
                                 user.stocktwits.name  = profile.displayName;
                                 user.stocktwits.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email

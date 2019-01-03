@@ -114,8 +114,8 @@
                     <p>
                         <strong>id</strong>: <%= user.linkedin.id %><br>
                         <strong>token</strong>: <%= user.linkedin.token %><br>
-                        <strong>display name</strong>: <%= user.linkedin.displayName %><br>
-                        <strong>username</strong>: <%= user.linkedin.username %>
+                        <strong>display name</strong>: <%= user.linkedin.name %><br>
+                        <strong>email</strong>: <%= user.linkedin.email %>
                     </p>
 
                     <a href="/unlink/linkedin" class="btn btn-info">Unlink</a>
@@ -136,8 +136,8 @@
                         <p>
                             <strong>id</strong>: <%= user.stocktwits.id %><br>
                             <strong>token</strong>: <%= user.stocktwits.token %><br>
-                            <strong>display name</strong>: <%= user.stocktwits.displayName %><br>
-                            <strong>username</strong>: <%= user.stocktwits.username %>
+                            <strong>name</strong>: <%= user.stocktwits.name %><br>
+                            <strong>email</strong>: <%= user.stocktwits.email %>
                         </p>
     
                         <a href="/unlink/stocktwits" class="btn btn-info">Unlink</a>
