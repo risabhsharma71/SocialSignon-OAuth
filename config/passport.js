@@ -383,7 +383,6 @@ module.exports = function(passport) {
         clientID        : configAuth.linkedinAuth.consumerKey,
         clientSecret    : configAuth.linkedinAuth.consumerSecret,
         callbackURL     : configAuth.linkedinAuth.callbackURL,
-        state:false,
         scope: ['r_emailaddress', 'r_basicprofile'],
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
@@ -393,7 +392,7 @@ module.exports = function(passport) {
         console.log("linkedin auth callback called")
         // asynchronous
         process.nextTick(function() {
-            console.log("profile=================>",profile)
+            console.log("profile details from LINKEDIN===========================================>",profile)
 
             // check if the user is already logged in
             if (!req.user) {
